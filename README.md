@@ -1,37 +1,11 @@
---------------HRMS Project----------------------
-How to run the program.
+# -----------------HRMS project----------------
 
-# install xampp server if not installed.
+# Instruction to use database
 
-# open "htdocs" folder in xampp server installed folder.
+# Install xampp server and open phpMyAdmin page by navigating in browser to localhost/phpMyAdmin/
 
-# Unzip the file and place "HRMS" folder inside "htdocs".
+# Create a new database with name "ecommerce_health".
 
-# start the apache,mysql servers in xampp.
+# Drag and drop the sql file to the database "ecommerce_health" OR use import in "ecommerce_health" select sql file in current folder and import everything.
 
-# navigate to the project by opening the browser and enter address "localhost/ #folder_name# /".
-
-# Example : if the folder name is "health and wellness" the address will be "localhost/health and wellness/".
-
-# Note: check database manual before running the project otherwise it may give you errors.
-
-------------Default Users added by project creator----------
-
-------------users/employee credentials-----------------
-
-username : test
-email : test@gmail.com
-password : test
-
---------Admin credentials-----------------
-
-adminName : vikram
-email : vikram@gmail.com
-password : vikram
-
-
-----------------Informations and Notes -------------------------------
-
-# /includes contains configuration file any changes for database connection should be made there.
-
-# /DATABASE cointains the database file. Read database README.md file for more information.
+# if you name the database to something else change connection configuration in /includes/config.php file

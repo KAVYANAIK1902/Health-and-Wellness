@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT id,password from users where email = ?";
+    $sql = "SELECT id,password from admin where email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -19,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             session_unset();
             session_destroy();
             session_start();
-            $_SESSION['uid'] = $uid;
+            $_SESSION['aid'] = $uid;
             header("Location: ./index.php");
         } else {
             $message = "Invalid Password.";
         }
     } else {
-        $message = "No user found.";
+        $message = "No admin found.";
     }
 }
 
@@ -40,11 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <?php include './includes/header.php'; ?>
-    <?php include './includes/nav.php'; ?>
+
 
     <div class="container bg-success mt-5 p-3 rounded-1" style="min-width: 360px;;width:40%">
-        <h3 class="text-center text-light">Login</h3>
+        <h3 class="text-center text-light">Admin Login</h3>
         <form method="POST">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label text-light">Email address</label>
@@ -60,13 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-3">
                 <button type="submit" class="btn btn-outline-light">Login</button>
             </div>
-            <div class="mb-3">
-                <p class="text-light">Don't have an account? <a class="text-dark" href="./register.php">Register</a> here. </p>
-            </div>
+
         </form>
     </div>
 
-    <?php include './includes/footer.php'; ?>
     <?php include './includes/bundle.php'; ?>
 </body>
 

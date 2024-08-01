@@ -1,6 +1,9 @@
 <?php
 include './includes/config.php';
 
+if (!isset($_SESSION['aid'])) {
+    header("Location: ./login.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -9,125 +12,125 @@ include './includes/config.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard</title>
 </head>
 
 <body>
-    <?php include './includes/header.php'; ?>
-    <?php include './includes/nav.php'; ?>
-
-
-    <!-- Swiper -->
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="./includes/img/carousel6.webp" alt="image"></div>
-            <div class="swiper-slide"><img src="./includes/img/carousel5.webp" alt="image"></div>
-            <div class="swiper-slide"><img src="./includes/img/carousel4.webp" alt="image"></div>
-            <div class="swiper-slide"><img src="./includes/img/hel.jpg" alt="image"></div>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="../index.php">Health n wellness</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-    </div>
+    </nav>
 
-    <div class="container" style="display: flex;align-items:center;justify-content:center;gap:10px">
-        <i class="fa-solid fa-filter" style="font-size: 24px;"></i>
-        <p class="mb-0 fs-2 lh-1">Select Category</p>
-    </div>
+    <div class="d-flex">
+        <?php include './includes/navbar.php'; ?>
 
-    <div class="container mt-2" style="display: flex;align-items:center;justify-content:center;gap:10px">
-        <?php
-        $sql = "SELECT * from categories";
-        $result = $conn->query($sql);
-        if ($result) :
-            while ($data = $result->fetch_assoc()) :
-        ?>
-                <a href="./products.php?category=<?php echo $data['id']; ?>">
-                    <div class="btn btn-outline-success"><?php echo $data['name']; ?></div>
-                </a>
-        <?php
-            endwhile;
-        endif;
-        ?>
-
-    </div>
-
-    <div class="container shadow" style="margin-top: 50px; width:80%">
-        <h1 class="text-center">Top Deals & Offers</h1>
-        <div class="swiper mySwiper2">
-            <div class="swiper-wrapper">
+        <div class="content p-4">
+            <h2>Dashboard</h2>
+            <div class="row">
 
                 <?php
-                $sql = "SELECT id, name, description, price, discount_price, (price - discount_price) AS discount_amount,category_id,image, created_at FROM products WHERE discount_price IS NOT NULL ORDER BY discount_amount DESC LIMIT 5;";
-                $result = $conn->query($sql);
-                if ($result) :
-                    while ($data = $result->fetch_assoc()) :
+                $sql = "SELECT * from products";
+                $res = $conn->query($sql);
+                $num = $res->num_rows;
                 ?>
-                        <div class="swiper-slide">
-                            <div class="card" style="width: 18rem;">
-                                <a href="./product-view.php?pid=<?php echo $data['id']; ?>"><img src="./includes/img/products/<?php echo $data['image']; ?>" class="card-img-top" alt="Product Image"></a>
-                                <div class="card-body">
-                                    <a href="./product-view.php?pid=<?php echo $data['id']; ?>" style="text-decoration:none">
-                                        <h5 class="card-title"><?php echo $data['name']; ?></h5>
-                                    </a>
-                                    <p class="card-text">
-                                        <span class="text-danger font-weight-bold">₹<?php echo $data['price']; ?></span>
-                                        <span class="text-muted ms-1"><s>₹<?php echo $data['discount_price']; ?></s></span>
-                                    </p>
-                                    <a href="./product-view.php?pid=<?php echo $data['id']; ?>" class="btn btn-outline-success">Add to Cart</a>
-                                </div>
-                            </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <p class="card-text" id="total-products"><?php echo $num; ?></p>
                         </div>
-                <?php
-                    endwhile;
-                endif;
-                ?>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-
-    <div class="container shadow" style="margin-top: 50px; width:80%">
-        <h1 class="text-center">New Arrivals</h1>
-        <div class="swiper mySwiper3">
-            <div class="swiper-wrapper">
+                    </div>
+                </div>
 
                 <?php
-                $sql = "SELECT id, name, description, price, discount_price, category_id, image, created_at FROM products ORDER BY created_at DESC LIMIT 5;";
-                $result = $conn->query($sql);
-                if ($result) :
-                    while ($data = $result->fetch_assoc()) :
+                $sql = "SELECT * from categories";
+                $res = $conn->query($sql);
+                $num = $res->num_rows;
                 ?>
-                        <div class="swiper-slide">
-                            <div class="card" style="width: 18rem;">
-                                <a href="./product-view.php?pid=<?php echo $data['id']; ?>"><img src="./includes/img/products/<?php echo $data['image']; ?>" class="card-img-top" alt="Product Image"></a>
-                                <div class="card-body">
-                                    <a href="./product-view.php?pid=<?php echo $data['id']; ?>" style="text-decoration:none">
-                                        <h5 class="card-title"><?php echo $data['name']; ?></h5>
-                                    </a>
-                                    <p class="card-text">
-                                        <span class="text-danger font-weight-bold">₹<?php echo $data['price']; ?></span>
-                                        <span class="text-muted ms-1"><s>₹<?php echo $data['discount_price']; ?></s></span>
-                                    </p>
-                                    <a href="./product-view.php?pid=<?php echo $data['id']; ?>" class="btn btn-outline-success">Add to Cart</a>
-                                </div>
-                            </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Categories</h5>
+                            <p class="card-text" id="total-categories"><?php echo $num; ?></p>
                         </div>
-                <?php
-                    endwhile;
-                endif;
-                ?>
+                    </div>
+                </div>
 
+                <?php
+                $sql = "SELECT * from orders";
+                $res = $conn->query($sql);
+                $num = $res->num_rows;
+                ?>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Orders</h5>
+                            <p class="card-text" id="total-orders"><?php echo $num; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+                $sql = "SELECT * from users";
+                $res = $conn->query($sql);
+                $num = $res->num_rows;
+                ?>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text" id="total-users"><?php echo $num; ?></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="swiper-pagination"></div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>Recent Orders</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders">
+
+                            <?php
+                            $sql = "SELECT o.*, u.name from orders o join users u on o.user_id = u.id ORDER BY created_at DESC LIMIT 4";
+                            $res = $conn->query($sql);
+                            if ($res) :
+                                while ($data = $res->fetch_assoc()) :
+                            ?>
+                                    <tr>
+                                        <td><?php echo $data['id']; ?></td>
+                                        <td><?php echo $data['name']; ?></td>
+                                        <td><?php echo $data['created_at']; ?></td>
+                                        <td><?php echo $data['status']; ?></td>
+                                        <td><?php echo $data['total']; ?></td>
+                                    </tr>
+                            <?php
+
+                                endwhile;
+                            endif;
+                            ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <?php include './includes/footer.php' ?>
-
-    <?php include './includes/bundle.php' ?>
-    <script src="./includes/js/main.js"></script>
+    <?php include './includes/bundle.php'; ?>
 </body>
 
 </html>

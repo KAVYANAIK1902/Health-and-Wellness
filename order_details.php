@@ -14,11 +14,6 @@ $o_id = $_GET['id'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .content {
-            flex: 1;
-        }
-    </style>
     <title>Order Details</title>
 </head>
 
@@ -33,6 +28,8 @@ $o_id = $_GET['id'];
     </nav>
 
     <div class="d-flex">
+
+        <?php include './includes/navbar.php'; ?>
 
         <div class="content p-4">
             <h2>Order Details</h2>
